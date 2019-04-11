@@ -31,11 +31,15 @@ namespace Ref.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // configure strongly typed settings objects
             var notifySettingsSection = Configuration.GetSection("NotificationSettings");
             services.Configure<NotificationSettings>(notifySettingsSection);
 
             var notifySettings = notifySettingsSection.Get<NotificationSettings>();
+
+            var emailSettingsSection = Configuration.GetSection("EmailSettings");
+            services.Configure<EmailSettings>(emailSettingsSection);
+
+            var emailSettings = emailSettingsSection.Get<EmailSettings>();
 
             services.AddScoped<IDbAccess>(
                 db => new DbAccess(Configuration.GetConnectionString("RefDb")));
@@ -45,6 +49,13 @@ namespace Ref.Web
                     token: notifySettings.Token,
                     recipients: notifySettings.Recipients,
                     endpoint: notifySettings.Endpoint));
+
+            services.AddScoped<IEmailNotification>(
+                db => new EmailNotification(
+                    apiKey: emailSettings.ApiKey,
+                    sender: emailSettings.Sender,
+                    replyTo: emailSettings.ReplyTo,
+                    host: emailSettings.Host));
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();

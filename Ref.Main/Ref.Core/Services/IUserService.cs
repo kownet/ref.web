@@ -21,15 +21,18 @@ namespace Ref.Core.Services
 
         private readonly IUserRepository _userRepository;
         private readonly IPushOverNotification _pushOverNotification;
+        private readonly IEmailNotification _emailNotification;
 
         public UserService(
             ILogger<UserService> logger,
             IUserRepository userRepository,
-            IPushOverNotification pushOverNotification)
+            IPushOverNotification pushOverNotification,
+            IEmailNotification emailNotification)
         {
             _logger = logger;
             _userRepository = userRepository;
             _pushOverNotification = pushOverNotification;
+            _emailNotification = emailNotification;
         }
 
         public async Task<UserRegisterResponse> Register(string email)
