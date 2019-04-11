@@ -52,12 +52,39 @@ namespace Ref.Core.Services
 
                 if (newUserId > 0)
                 {
-                    var msg = $"Utworzono użytkownika: {email}";
+                    var emailUI = new EmailUI(guid);
 
-                    _pushOverNotification.Send("PewneMieszkanie.pl", msg);
-                    _logger.LogInformation(msg);
+                    var emailToSend = emailUI.Prepare();
 
-                    return UserRegisterResponse.Success();
+                    if(emailUI.CanBeSend)
+                    {
+                        var emailToUser = _emailNotification.Send(
+                            emailToSend.Title,
+                            emailToSend.RawMessage,
+                            emailToSend.HtmlMessage,
+                            new string[] { email });
+
+                        if(emailToUser.IsSuccess)
+                        {
+                            var msg = $"Utworzono użytkownika: {email} i wysłano wiadomość.";
+
+                            _logger.LogInformation(msg);
+                            _pushOverNotification.Send("[PewneMieszkanie.pl] - Sukces", msg);
+
+                            return UserRegisterResponse.Success();
+                        }
+                        else
+                        {
+                            _logger.LogInformation(emailToUser.Message);
+                            _pushOverNotification.Send("[PewneMieszkanie.pl] - Błąd", emailToUser.Message);
+
+                            return UserRegisterResponse.Error(emailToUser.Message);
+                        }
+                    }
+                    else
+                    {
+                        return UserRegisterResponse.Error($"Wiadomość do {email} nie może zostać wysłana.");
+                    }
                 }
                 else
                 {
@@ -71,6 +98,7 @@ namespace Ref.Core.Services
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.GetFullMessage());
+
                 return UserRegisterResponse.Error(ex.GetFullMessage());
             }
         }
