@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ref.Core.Data;
+using Ref.Core.Notifications;
 using Ref.Core.Repositories;
 using Ref.Core.Services;
+using Ref.Web.Settings;
 
 namespace Ref.Web
 {
@@ -29,8 +31,20 @@ namespace Ref.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            // configure strongly typed settings objects
+            var notifySettingsSection = Configuration.GetSection("NotificationSettings");
+            services.Configure<NotificationSettings>(notifySettingsSection);
+
+            var notifySettings = notifySettingsSection.Get<NotificationSettings>();
+
             services.AddScoped<IDbAccess>(
                 db => new DbAccess(Configuration.GetConnectionString("RefDb")));
+
+            services.AddScoped<IPushOverNotification>(
+                db => new PushOverNotification(
+                    token: notifySettings.Token,
+                    recipients: notifySettings.Recipients,
+                    endpoint: notifySettings.Endpoint));
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();

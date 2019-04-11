@@ -84,7 +84,7 @@ body {
         }
 
     .form-signin input[type="email"] {
-        margin-bottom: 5px;
+        margin-bottom: 15px;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }

@@ -1,4 +1,7 @@
-﻿using Ref.Core.Models;
+﻿using Microsoft.Extensions.Logging;
+using Ref.Core.Extensions;
+using Ref.Core.Models;
+using Ref.Core.Notifications;
 using Ref.Core.Repositories;
 using Ref.Core.Responses;
 using System;
@@ -14,11 +17,19 @@ namespace Ref.Core.Services
 
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IPushOverNotification _pushOverNotification;
+
+        public UserService(
+            ILogger<UserService> logger,
+            IUserRepository userRepository,
+            IPushOverNotification pushOverNotification)
         {
+            _logger = logger;
             _userRepository = userRepository;
+            _pushOverNotification = pushOverNotification;
         }
 
         public async Task<UserRegisterResponse> Register(string email)
@@ -38,14 +49,26 @@ namespace Ref.Core.Services
 
                 if (newUserId > 0)
                 {
+                    var msg = $"Utworzono użytkownika: {email}";
+
+                    _pushOverNotification.Send("PewneMieszkanie.pl", msg);
+                    _logger.LogInformation(msg);
+
                     return UserRegisterResponse.Success();
                 }
                 else
-                    return UserRegisterResponse.Error("Błąd przy tworzeniu użytkownika.");
+                {
+                    var msg = $"Błąd przy tworzeniu użytkownika - {email}.";
+
+                    _logger.LogError(msg);
+
+                    return UserRegisterResponse.Error(msg);
+                }
             }
             catch (Exception ex)
             {
-                return UserRegisterResponse.Error(ex.Message);
+                _logger.LogCritical(ex.GetFullMessage());
+                return UserRegisterResponse.Error(ex.GetFullMessage());
             }
         }
     }
