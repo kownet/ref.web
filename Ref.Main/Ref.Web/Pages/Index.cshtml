@@ -1,43 +1,42 @@
 ﻿@page
 @model IndexModel
 
-<div class="row justify-content-center">
+<div class="card-deck mb-3">
 
-    <div class="col-4">
-        <div class="text-center form-signin-container">
-            <div asp-validation-summary="All"></div>
-            <form class="form-signin" method="post">
-                <input asp-for="UserViewModel.Email" type="email" class="form-control" placeholder="Adres email" required autofocus>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Zakładam konto</button>
-            </form>
+    <div class="card mb-4 bg-light">
+        <div class="card-body">
+            <div class="text-center">
+                <div asp-validation-summary="All"></div>
+                <form class="form-signin" method="post">
+                    <input asp-for="UserViewModel.Email" type="email" class="form-control" placeholder="Adres email" required autofocus>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Zakładam konto</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="card mb-4 text-left">
+        <div class="card-body">
+            <h5 class="card-title">Cechy narzędzia</h5>
+            <h6 class="card-subtitle mb-2 text-muted">wyszukiwanie mieszkania wg.</h6>
+            <p class="card-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">miasta</li>
+                    <li class="list-group-item">ceny</li>
+                    <li class="list-group-item">powierzchni</li>
+                    <li class="list-group-item">ceny za m<sup>2</sup></li>
+                    <li class="list-group-item">zdefiniowanej frazy np. "do remontu", "gotowiec inwestycyjny"</li>
+                </ul>
+            </p>
         </div>
     </div>
 
-    <div class="col-4">
-        <div class="card" style="width: 20rem;">
-            <div class="card-body">
-                <h5 class="card-title">Cechy narzędzia</h5>
-                <h6 class="card-subtitle mb-2 text-muted">wyszukiwanie mieszkania wg.</h6>
-                <p class="card-text">
-                    <ul>
-                        <li>miasta</li>
-                        <li>ceny</li>
-                        <li>powierzchni</li>
-                        <li>ceny za m<sup>2</sup></li>
-                        <li>zdefiniowanej frazy np. "do remontu", "gotowiec inwestycyjny"</li>
-                    </ul>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-4">
-        <div class="card" style="width: 16rem;">
-            <img class="card-img-top" src="~/img/PM.png" alt="Card image cap" />
-            <div class="card-body">
-                <h5 class="card-title">PewneMieszkanie.pl</h5>
-                <p class="card-text">Śledzimy rynek nieruchomości dla Ciebie.</p>
-            </div>
+    <div class="card mb-2 text-center">
+        <img class="card-img-top img-fluid" src="~/img/PM.png" alt="PewneMieszkanie - Logo" />
+        <div class="card-body">
+            <h5 class="card-title">PewneMieszkanie.pl</h5>
+            <p class="card-text">Śledzimy rynek nieruchomości dla Ciebie.</p>
         </div>
     </div>
 
