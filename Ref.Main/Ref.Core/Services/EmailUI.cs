@@ -27,7 +27,7 @@ namespace Ref.Core.Services
             sbRaw.AppendLine("Przez następne 24 godziny możesz testować nasz system bez żadnych opłat.");
             sbHtml.AppendLine("<p>Przez następne <strong>24 godziny</strong> możesz testować nasz system bez żadnych opłat.</p>");
 
-            sbHtml.AppendLine($"<br><strong><a href=\"https://app.pewnemieszkanie.pl/index.html?guid={Token}\">Twoje konto</a></strong><br>");
+            sbHtml.AppendLine($"<br><strong><a href=\"https://app.pewnemieszkanie.pl/{Token}\">Twoje konto</a></strong><br>");
 
             sbHtml.AppendLine(sbFooter);
 
