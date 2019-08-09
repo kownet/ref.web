@@ -1,0 +1,39 @@
+﻿@page "{contacttype}"
+@model Ref.Web.Pages.ContactModel
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <form class="was-validated" method="post">
+            <div class="form-group row">
+                <label for="f-email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" id="f-email" name="email" class="form-control" aria-describedby="f-email-help" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="f-subject" class="col-sm-2 col-form-label">Temat</label>
+                <div class="col-sm-6">
+                    <input type="text" value="@Model.ContactViewModel.Subject" id="f-subject" name="subject" class="form-control" aria-describedby="f-subject-help" readonly>
+                </div>
+            </div>
+
+            @if (Model.IsNotDemoAccess)
+            {
+                <div class="form-group row">
+                    <label for="f-msg" class="col-sm-2 col-form-label">Wiadomość</label>
+                    <div class="col-sm-6">
+                        <textarea type="text" id="f-msg" name="message" class="form-control" aria-describedby="f-msg-help">@Model.ContactViewModel.Message</textarea>
+                    </div>
+                </div>
+            }
+
+            <input type="hidden" id="f-contacttype" value="@Model.ContactViewModel.ContactType" class="form-control" name="contacttype">
+
+            <div class="btn-group offset-sm-2" role="group">
+                <button type="submit" class="btn btn-primary" id="btn-f-create">Wyślij</button>
+                <button type="button" class="btn btn-secondary" onclick="javascript:window.history.back();">Anuluj</button>
+            </div>
+        </form>
+    </div>
+</div>

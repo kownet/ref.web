@@ -8,11 +8,16 @@ namespace Ref.Web.Pages
         {
         }
 
-        public string UserCreated { get; private set; }
+        public string Message { get; private set; }
 
         public void OnGetUserCreated()
         {
-            UserCreated = "Utworzono konto użytkownika, proszę sprawdzić podany adres email. Dziękujemy!";
+            Message = "Utworzono konto użytkownika, proszę sprawdzić podany adres email. Dziękujemy!";
+        }
+
+        public void OnGetMailSent()
+        {
+            Message = "Wysłano wiadomość, odpowiemy tak szybko jak to możliwe. Dziękujemy!";
         }
     }
 }

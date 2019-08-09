@@ -36,9 +36,17 @@ namespace Ref.Web.Pages
             var result = await _userService.Register(UserViewModel.Email);
 
             if (result.Succeed)
+            {
+                _logger.LogInformation($"User: {UserViewModel.Email} created.");
+
                 return RedirectToPage("/ThankYou", "UserCreated");
+            }
             else
+            {
+                _logger.LogError($"Error: {result.Message} for user: {UserViewModel.Email}.");
+
                 return RedirectToPage("/Error", "UserError", new { message = result.Message });
+            }
         }
     }
 }
