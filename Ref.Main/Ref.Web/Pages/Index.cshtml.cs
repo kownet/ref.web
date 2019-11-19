@@ -33,20 +33,22 @@ namespace Ref.Web.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            var result = await _userService.Register(UserViewModel.Email);
+            //var result = await _userService.Register(UserViewModel.Email);
 
-            if (result.Succeed)
-            {
-                _logger.LogInformation($"User: {UserViewModel.Email} created.");
+            //if (result.Succeed)
+            //{
+            //    _logger.LogInformation($"User: {UserViewModel.Email} created.");
 
-                return RedirectToPage("/ThankYou", "UserCreated");
-            }
-            else
-            {
-                _logger.LogError($"Error: {result.Message} for user: {UserViewModel.Email}.");
+            //    return RedirectToPage("/ThankYou", "UserCreated");
+            //}
+            //else
+            //{
+            //    _logger.LogError($"Error: {result.Message} for user: {UserViewModel.Email}.");
 
-                return RedirectToPage("/Error", "UserError", new { message = result.Message });
-            }
+            //    return RedirectToPage("/Error", "UserError", new { message = result.Message });
+            //}
+
+            return RedirectToPage("/Index");
         }
     }
 }
